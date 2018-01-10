@@ -1,0 +1,23 @@
+// bootstrap-custom.scss
+
+// Your variable overrides
+$body-bg: #fff;
+$body-color: #000;
+$primary: #89cfd8;
+$enable-shadows: true;
+
+// This variable affects the `.h-*` and `.w-*` classes.
+$sizes: (
+  15: 15%,
+  20: 20%,
+  25: 25%,
+  50: 50%,
+  75: 75%,
+  100: 100%
+);
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+$font-family-base: "Montserrat", sans-serif;
+
+// Bootstrap and its default variables
+@import "node_modules/bootstrap/scss/bootstrap";
