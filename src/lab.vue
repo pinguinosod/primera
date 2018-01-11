@@ -10,6 +10,7 @@
             <div class="col-sm">
                 <ul>
                     <li><h3><router-link to="/lab/deutscheSprache" class="nav-item nav-link">Deutsche Sprache</router-link></h3></li>
+                    <li><h3><router-link to="/lab/arithmeticus" class="nav-item nav-link">Arithmeticus</router-link></h3></li>
                 </ul>
             </div>
         </div>
