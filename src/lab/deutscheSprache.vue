@@ -53,7 +53,7 @@
 <script>
 
 export default {
-    name: 'app-lab',
+    name: 'app-deutscheSprache',
     data () {
         return {
             title: 'Deutsche Sprache',
@@ -70,20 +70,17 @@ export default {
     max-width: 400px;
     height:195px;
     background-color:yellow;
-    position:relative;
 }
 #mainLogo::before {
     content:'';
     display: block;
     background-color:black;
-    top:65px;
     height:65px;
 }
 #mainLogo::after {
     content:'';
     display: block;
     background-color:red;
-    top:130px;
     height:65px;
 }
 
