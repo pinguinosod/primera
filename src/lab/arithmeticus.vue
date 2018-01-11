@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-sm text-center">
                 {{ num1 }} {{ operations[operation] }} {{ num2 }} = 
-                <input id="result" v-model="result" v-on:keyup.13="checkResult" autofocus>
+                <input id="result" v-model="result" v-on:keyup.13="checkResult" v-autofocus>
             </div>
             <div class="col-12"></div> <!-- line break -->
             <div class="col-sm text-center">
@@ -75,6 +75,14 @@ export default {
             this.result = '',
             this.responseText = ''
         }
+    },
+    directives: {
+      autofocus: {
+        // directive definition
+        inserted: function (el) {
+          el.focus()
+        }
+      }
     }
 }
 </script>
