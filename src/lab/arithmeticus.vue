@@ -9,14 +9,18 @@
         <div class="row">
             <div class="col-sm text-center">
                 {{ num1 }} {{ operations[operation] }} {{ num2 }} = 
-                <input id="result" v-model="result" v-on:keyup.13="checkResult" v-autofocus>
+                <input id="result" v-model="result" v-on:keyup.13="checkResult" v-bind:disabled="responseText != ''" v-autofocus>
             </div>
             <div class="col-12"></div> <!-- line break -->
-            <div class="col-sm text-center">
+            <div class="col-sm text-center font-weight-bold">
                 <span id="response" v-bind:class="{ 'text-success':response, 'text-danger':!response }">{{ responseText }}</span>
             </div>
             <div class="col-12"></div> <!-- line break -->
             <div class="col-sm"><p class="text-muted text-center">Write your answer and press Enter.</p></div>
+            <div class="col-12"></div> <!-- line break -->
+            <div class="col-12 text-center font-weight-bold text-success">Corrects: {{ corrects }} </div>
+            <div class="col-12 text-center font-weight-bold text-danger">Wrongs: {{ wrongs }} </div>
+            </div>
         </div>
     </div>
 </template>
@@ -28,9 +32,9 @@ export default {
         return {
             title: 'Arithmeticus!',
             subtitle: 'Do you even math?',
-            num1: Math.ceil(Math.random()*10),
-            num2: Math.ceil(Math.random()*10),
-            operation: Math.ceil(Math.random()*3)-1,
+            num1: 0,
+            num2: 0,
+            operation: 0,
             operations: {
                 0:'+',
                 1:'-',
@@ -38,42 +42,59 @@ export default {
             },
             result: '',
             response: false,
-            responseText: ''
+            responseText: '',
+            corrects:0,
+            wrongs:0
         }
+    },
+    mounted:function() {
+        this.restart();
     },
     methods: {
         checkResult: function() {
-            var num1 = parseInt(this.num1);
-            var num2 = parseInt(this.num2);
-            var result = parseInt(this.result);
+            if (this.responseText == '') {
+                var num1 = parseInt(this.num1);
+                var num2 = parseInt(this.num2);
+                var result = parseInt(this.result);
+                switch (parseInt(this.operation)) {
+                    default:
+                    case 0:
+                        this.response = (num1 + num2) == result;
+                    break;
+                    case 1:
+                        this.response = (num1 - num2) == result;
+                    break;
+                    case 2:
+                        this.response = (num1 * num2) == result;
+                    break;
+                }
             
-            switch (parseInt(this.operation)) {
-                default:
-                case 0:
-                    this.response = (num1 + num2) == result;
-                break;
-                case 1:
-                    this.response = (num1 - num2) == result;
-                break;
-                case 2:
-                    this.response = (num1 * num2) == result;
-                break;
+                if (this.response) {
+                    this.responseText = 'Correct!';
+                    this.corrects++;
+                }
+                else {
+                    this.responseText = 'Wrong!';
+                    this.wrongs++;
+                }
+                var self = this;
+                setTimeout(function() {
+                    self.restart();
+                }, 750);
             }
-            
-            if (this.response) this.responseText = 'Correct!';
-            else this.responseText = 'Wrong!';
-            
-            var self = this;
-            setTimeout(function() {
-                self.restart();
-            }, 2000);
         },
         restart: function() {
-            this.num1 = Math.ceil(Math.random()*10),
-            this.num2 = Math.ceil(Math.random()*10),
-            this.operation = Math.ceil(Math.random()*3)-1,
-            this.result = '',
-            this.responseText = ''
+            this.operation = Math.ceil(Math.random()*3)-1;
+            if (this.operation == 2) {
+                this.num1 = Math.ceil(Math.random()*12);
+                this.num2 = Math.ceil(Math.random()*12);
+            }
+            else {
+                this.num1 = Math.ceil(Math.random()*99);
+                this.num2 = Math.ceil(Math.random()*99);
+            }
+            this.result = '';
+            this.responseText = '';
         }
     },
     directives: {
@@ -89,7 +110,7 @@ export default {
 
 <style scoped lang="scss">
 #result {
-    width: 30px;
+    width: 40px;
 }
 #response {
     height: 35px;
